@@ -55,13 +55,14 @@ class filebeat::config {
 
   case $::kernel {
     'Linux'   : {
-      $validate_cmd = $filebeat::disable_config_test ? {
-        true    => undef,
-        default => $major_version ? {
-          '5'     => "${filebeat::filebeat_path} -N -configtest -c %",
-          default => "${filebeat::filebeat_path} -c % test config",
-        },
-      }
+      # $validate_cmd = $filebeat::disable_config_test ? {
+      #   true    => undef,
+      #   default => $major_version ? {
+      #     '5'     => "${filebeat::filebeat_path} -N -configtest -c %",
+      #     default => "${filebeat::filebeat_path} -c % test config",
+      #   },
+      # }
+      $validate_cmd = "${filebeat::filebeat_path} -c % test config"
 
       file {'filebeat.yml':
         ensure       => $filebeat::file_ensure,
